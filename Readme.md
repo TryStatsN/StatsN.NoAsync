@@ -2,9 +2,7 @@
 
 
 
-StatsN is a modern performance first Stastd client for dotnet core. StatsN supports both TCP and UDP, although UDP is recommended. Largely inspired by the [statsd-csharp-client](https://github.com/Pereingo/statsd-csharp-client) and the [statsd.net client](https://github.com/lukevenediger/statsd-csharp-client). Both projects In my mind are awesome :facepunch:, just not exactly what I was looking for. This is a completely sync version of the core [StatsN Client](https://github.com/TryStatsN/StatsN.NoAsync). This was created for people whom wanted to use .net 4.0 but can not use Microsoft.Bcl.Async
-
-Both projects inherit from a [common contracts package](https://github.com/TryStatsN/StatsN.Contracts).
+This is a completely sync version of the core [StatsN Client](https://github.com/TryStatsN/StatsN.NoAsync). This was created for people whom wanted to use .net 4.0 but can not use Microsoft.Bcl.Async package. Both projects inherit from a [common contracts package](https://github.com/TryStatsN/StatsN.Contracts). This may be extended to .net 3.5 in the future.
 
 ## Getting started
 
