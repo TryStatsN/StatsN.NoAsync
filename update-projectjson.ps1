@@ -1,4 +1,4 @@
-$projectJsonFileLocation = "src/StatsN/project.json"
+$projectJsonFileLocation = "src/StatsN.NoAsync/project.json"
 $newVersion = $env:APPVEYOR_REPO_TAG_NAME
 if($newVersion -eq $null)
 {
