@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StatsN
 {
-	public partial class Statsd : IStatsd
+	public partial class Statsd : IStatsdSync
     {
         readonly StatsdOptions options;
 

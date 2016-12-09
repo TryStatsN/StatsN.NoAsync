@@ -1,7 +1,8 @@
-﻿{
+{
   "version": "1.0.0-*",
   "title": "StatsN.NoAsync",
   "dependencies": {
+    "StatsN.Contracts": "1.1.1"
   },
    "packOptions": {
     "owners": [
