@@ -2,7 +2,7 @@
 
 
 
-This is a completely sync version of the core [StatsN Client](https://github.com/TryStatsN/StatsN.NoAsync). This was created for people whom wanted to use .net 4.0 but can not use Microsoft.Bcl.Async package. Both projects inherit from a [common contracts package](https://github.com/TryStatsN/StatsN.Contracts). This may be extended to .net 3.5 in the future.
+This is a completely sync version of the core [StatsN Client](https://github.com/TryStatsN/StatsN.NoAsync). This was created for people whom wanted to use .net 4.0 but cannot use Microsoft.Bcl.Async package. Both projects inherit from a [common contracts package](https://github.com/TryStatsN/StatsN.Contracts). This may be extended to .net 3.5 in the future.
 
 ## Getting started
 
