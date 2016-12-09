@@ -1,12 +1,12 @@
 ﻿{
   "version": "1.0.0-*",
-
+  "title": "StatsN.NoAsync",
   "dependencies": {
   },
    "packOptions": {
-      "owners": [
-          "Tommy Parnell"
-      ],
+    "owners": [
+      "Tommy Parnell"
+    ],
     "projectUrl": "https://github.com/TerribleDev/StatsN",
     "summary": "A modern statsd client for dotnet core and dotnet 4.5",
     "licenseUrl": "https://raw.githubusercontent.com/TerribleDev/StatsN/master/LICENSE",
@@ -24,28 +24,13 @@
     ]
    },
   "frameworks": {
-    "net45": {
-      "buildOptions": {
-        "define": [ "net45", "NETFULL" ]
-      }
-    },
     "net40": {
       "frameworkAssemblies": {
       },
       "dependencies": {
-        "Microsoft.Bcl.Async":  "1.0.166"
       },
       "buildOptions": {
         "define": [ "net40", "NETFULL" ]
-      }
-    },
-    "netstandard1.3": {
-      "imports": "dnxcore50",
-      "dependencies": {
-        "System.Net.NameResolution": "4.0.0",
-        "System.Diagnostics.TraceSource": "4.0.0",
-        "System.ComponentModel.EventBasedAsync": "4.0.11",
-        "NETStandard.Library": "1.6.0"
       }
     }
   }

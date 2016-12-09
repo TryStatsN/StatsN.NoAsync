@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StatsN
+﻿namespace StatsN
 {
-    internal static class Constants
+	internal static class Constants
     {
         internal const char colon = ':';
         internal const char pipe = '|';

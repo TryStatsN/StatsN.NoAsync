@@ -1,13 +1,10 @@
 ﻿using StatsN.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StatsN
 {
-    public class StatsdOptions
+	public class StatsdOptions
     {
         public Action<System.Exception> OnExceptionGenerated;
         public Action<StatsdLogMessage> OnLogEventGenerated;

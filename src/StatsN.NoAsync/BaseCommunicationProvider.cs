@@ -2,16 +2,14 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace StatsN
 {
-    public abstract class BaseCommunicationProvider : IDisposable
+	public abstract class BaseCommunicationProvider : IDisposable
     {
         /// <summary>
         /// User Options
@@ -38,12 +36,12 @@ namespace StatsN
                         }
                         else
                         {
-                            SendAsync(buffer.ToArray());
+                            Send(buffer.ToArray());
                             buffer.Clear();
                             buffer.AddRange(bufferOut);
                         }
                     }
-                    if (buffer.Count > 0) SendAsync(buffer.ToArray());
+                    if (buffer.Count > 0) Send(buffer.ToArray());
                 }
                 catch(Exception e)
                 {
@@ -65,7 +63,7 @@ namespace StatsN
         /// Connect the socket
         /// </summary>
         /// <returns></returns>
-        public abstract Task<bool> Connect();
+        public abstract bool Connect();
         /// <summary>
         /// Is the socket connected?
         /// </summary>
@@ -75,30 +73,29 @@ namespace StatsN
         /// </summary>
         /// <param name="metric"></param>
         /// <returns></returns>
-        internal Task SendMetric(string metric)
+        internal void SendMetric(string metric)
         {
             var payload = Encoding.ASCII.GetBytes(metric + Environment.NewLine);
             if (Options.BufferMetrics)
             {
                 Queue.Enqueue(payload);
                 if (!worker.IsBusy) worker.RunWorkerAsync();
-                return TplFactory.FromResult();
             }
-            return SendAsync(payload);
+            Send(payload);
         }
-        public abstract Task SendAsync(byte[] payload);
+        public abstract void Send(byte[] payload);
         /// <summary>
         /// Get the IPEndpoint for the Options object, will return null if it cannot be established
         /// </summary>
         /// <returns></returns>
-        protected Task<IPEndPoint> GetIpAddressAsync() => GetIpAddressAsync(this.Options.HostOrIp, this.Options.Port);
+        protected IPEndPoint GetIpAddress() => GetIpAddress(this.Options.HostOrIp, this.Options.Port);
         /// <summary>
         /// Get the IPEndpoint for the Options object, will return null if it cannot be established
         /// </summary>
         /// <param name="hostOrIPAddress"></param>
         /// <param name="port"></param>
         /// <returns></returns>
-        protected async Task<IPEndPoint> GetIpAddressAsync(string hostOrIPAddress, int port)
+        protected IPEndPoint GetIpAddress(string hostOrIPAddress, int port)
         {
             IPAddress ipAddress;
             // Is this an IP address already?
@@ -106,11 +103,8 @@ namespace StatsN
             {
                 try
                 {
-#if net40
-                    ipAddress = await TaskEx.Run(()=>Dns.GetHostAddresses(hostOrIPAddress).First(p => p.AddressFamily == AddressFamily.InterNetwork)).ConfigureAwait(false);
-#else
-                    ipAddress = (await Dns.GetHostAddressesAsync(hostOrIPAddress).ConfigureAwait(false)).First(p => p.AddressFamily == AddressFamily.InterNetwork);
-#endif
+                    ipAddress = Dns.GetHostAddresses(hostOrIPAddress).First(p => p.AddressFamily == AddressFamily.InterNetwork);
+
 
                 }
                 catch (Exception)

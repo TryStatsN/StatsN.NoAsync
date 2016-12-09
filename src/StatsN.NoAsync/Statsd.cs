@@ -1,14 +1,10 @@
 ﻿using StatsN.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace StatsN
 {
-    public partial class Statsd : IStatsd
+	public partial class Statsd : IStatsd
     {
         readonly StatsdOptions options;
 
@@ -76,11 +72,11 @@ namespace StatsN
             _provider = provider.Construct(options);
 
         }
-        internal Task LogMetricAsync(string metricName, long value, string metricType, string postfix = "") => LogMetricAsync(metricName, value.ToString(), metricType, postfix);
+        internal void LogMetric(string metricName, long value, string metricType, string postfix = "") => LogMetric(metricName, value.ToString(), metricType, postfix);
         
-        internal async Task LogMetricAsync(string metricName, string value, string metricType, string postfix = "")
+        internal void LogMetric(string metricName, string value, string metricType, string postfix = "")
         {
-            if (!_provider.IsConnected && !await _provider.Connect().ConfigureAwait(false))
+            if (!_provider.IsConnected && _provider.Connect())
             {
                 options.LogEvent("unable to connect message transport", EventType.Error);
                 return;
@@ -93,7 +89,7 @@ namespace StatsN
             }
             try
             {
-                await _provider.SendMetric(calculateMetric).ConfigureAwait(false);
+                _provider.SendMetric(calculateMetric);
             }
             catch(Exception e)
             {

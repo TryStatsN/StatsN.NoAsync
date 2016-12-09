@@ -15,16 +15,8 @@ before_build:
 
 build_script:
 - ps: dotnet restore
-- ps: dotnet build -c Release .\src\StatsN
-- ps: dotnet build -c Release .\src\StatsN.UnitTests
-
-
-test_script:
-- ps: dotnet test -c Release .\src\StatsN.UnitTests
-- ps: .\Coverage.ps1
-- ps: .\update-projectjson.ps1
-- ps: dotnet restore
-- ps: dotnet pack -c Release .\src\StatsN
+- ps: dotnet build -c Release .\src\StatsN.NoAsync
+- ps: dotnet pack -c Release .\src\StatsN.NoAsync
 
 deploy:
 - provider: NuGet

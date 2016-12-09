@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
 
 namespace StatsN
 {
-    public class Udp : BaseCommunicationProvider
+	public class Udp : BaseCommunicationProvider
     {
 #pragma warning disable CC0052 // Make field readonly
 #pragma warning disable CC0033 // Dispose Fields Properly
@@ -18,12 +14,12 @@ namespace StatsN
 #pragma warning restore CC0052 // Make field readonly
         private IPEndPoint _ipEndpoint;
 
-        public override async Task SendAsync(byte[] payload)
+        public override void Send(byte[] payload)
         {
             IPEndPoint endpoint;
             if(_ipEndpoint == null)
             {
-                endpoint = await GetIpAddressAsync().ConfigureAwait(false);
+				endpoint = GetIpAddress();
 
                 if (endpoint == null) return;
             }
@@ -33,11 +29,7 @@ namespace StatsN
             }
             try
             {
-#if net40
-                await TaskEx.Run(() => _udpClient.Send(payload, payload.Length, endpoint)).ConfigureAwait(false);
-#else
-                await _udpClient.SendAsync(payload, payload.Length, endpoint).ConfigureAwait(false);
-#endif
+                 _udpClient.Send(payload, payload.Length, endpoint);
             }
             catch(Exception e)
             {
@@ -52,7 +44,7 @@ namespace StatsN
                 return _ipEndpoint != null;
             }
         }
-        public override async Task<bool> Connect()
+        public override bool Connect()
         {
             if (string.IsNullOrWhiteSpace(Options.HostOrIp))
             {
@@ -62,7 +54,7 @@ namespace StatsN
             {
                 Trace.TraceError($"{nameof(Options.Port)} not passed to statsd udp client");
             }
-            _ipEndpoint = await GetIpAddressAsync(Options.HostOrIp, Options.Port).ConfigureAwait(false);
+            _ipEndpoint = GetIpAddress(Options.HostOrIp, Options.Port);
             return _ipEndpoint != null;
         }
         public override void OnDispose()

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StatsN
 {
-    public class Tcp : BaseCommunicationProvider
+	public class Tcp : BaseCommunicationProvider
     {
 #pragma warning disable CC0052 // Make field readonly
 #pragma warning disable CC0033 // Dispose Fields Properly
@@ -28,11 +24,11 @@ namespace StatsN
             }
         }
 
-        public override async Task<bool> Connect()
+        public override bool Connect()
         {
             if(ipEndpoint == null)
             {
-                ipEndpoint = await GetIpAddressAsync().ConfigureAwait(false);
+                ipEndpoint = GetIpAddress();
             }
             if (ipEndpoint == null) return false;
             lock (padLock)
@@ -42,7 +38,7 @@ namespace StatsN
                 {
                     DisposeClient();
                     Client = new TcpClient();
-                    Client.ConnectAsync(this.ipEndpoint.Address, Options.Port).GetAwaiter().GetResult();
+                    Client.Connect(this.ipEndpoint.Address, Options.Port);
                     if (Client.Connected) Stream = Client.GetStream();
                     return Client.Connected && Stream != null && Stream.CanWrite;
                 }
@@ -69,7 +65,7 @@ namespace StatsN
             Client = null;
         }
 
-        public override async Task SendAsync(byte[] payload)
+        public override void Send(byte[] payload)
         {
             if(!Client.Connected || !Stream.CanWrite)
             {
@@ -78,7 +74,7 @@ namespace StatsN
             }
             try
             {
-                await Stream.WriteAsync(payload, 0, payload.Length);
+                Stream.Write(payload, 0, payload.Length);
             }
             catch(Exception e)
             {
